@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_print_numbers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: framiran <framiran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/02 17:07:56 by framiran          #+#    #+#             */
-/*   Updated: 2025/02/02 17:08:30 by framiran         ###   ########.fr       */
+/*   Created: 2025/01/20 14:48:54 by framiran          #+#    #+#             */
+/*   Updated: 2025/01/22 11:22:03 by framiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putstr(char *str)
+void	ft_print_numbers(void)
 {
-	while (*str != '\0')
+	char	numb;
+
+	numb = 48;
+	while (numb <= 57)
 	{
-		write(1, str, 1);
-		str++;
+		write(1, &numb, 1);
+		numb++;
 	}
 }

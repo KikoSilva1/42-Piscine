@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_rev_params.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/02 17:07:56 by framiran          #+#    #+#             */
-/*   Updated: 2025/02/02 17:08:30 by framiran         ###   ########.fr       */
+/*   Created: 2025/02/04 15:56:02 by framiran          #+#    #+#             */
+/*   Updated: 2025/02/04 16:05:21 by framiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putstr(char *str)
+int	main(int argc, char *argv[])
 {
-	while (*str != '\0')
+	int	li;
+	int	j;
+
+	li = argc - 1;
+	while (li >= 1)
 	{
-		write(1, str, 1);
-		str++;
+		j = 0;
+		while (argv[li][j])
+		{
+			write(1, &argv[li][j], 1);
+			j++;
+		}
+		li--;
+		write(1, "\n", 1);
 	}
 }

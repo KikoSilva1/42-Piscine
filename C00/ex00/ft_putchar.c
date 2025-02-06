@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: framiran <framiran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/02 17:07:56 by framiran          #+#    #+#             */
-/*   Updated: 2025/02/02 17:08:30 by framiran         ###   ########.fr       */
+/*   Created: 2025/01/20 10:35:39 by framiran          #+#    #+#             */
+/*   Updated: 2025/01/22 11:25:04 by framiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putstr(char *str)
+void	ft_putchar(char c)
 {
-	while (*str != '\0')
-	{
-		write(1, str, 1);
-		str++;
-	}
+	write(1, &c, 1);
 }

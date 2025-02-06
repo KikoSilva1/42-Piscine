@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_range.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/02 17:07:56 by framiran          #+#    #+#             */
-/*   Updated: 2025/02/02 17:08:30 by framiran         ###   ########.fr       */
+/*   Created: 2025/02/05 13:59:54 by framiran          #+#    #+#             */
+/*   Updated: 2025/02/05 14:31:40 by framiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 
-void	ft_putstr(char *str)
+int	*ft_range(int min, int max)
 {
-	while (*str != '\0')
+	int	size;
+	int	*buffer;
+	int	*buffer_start;
+
+	size = max - min;
+	if (size <= 0)
+		return (NULL);
+	buffer = (int *) malloc(size * sizeof(int));
+	if (buffer == NULL)
+		return (NULL);
+	buffer_start = buffer;
+	while (size--)
 	{
-		write(1, str, 1);
-		str++;
+		*buffer = min;
+		buffer++;
+		min++;
 	}
+	return (buffer_start);
 }

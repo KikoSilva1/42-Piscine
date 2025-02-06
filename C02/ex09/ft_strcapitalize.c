@@ -6,18 +6,16 @@
 /*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 15:00:03 by framiran          #+#    #+#             */
-/*   Updated: 2025/01/28 16:41:15 by framiran         ###   ########.fr       */
+/*   Updated: 2025/02/01 10:37:33 by framiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	to_upper(char *c)
+void	change_case(char *c, int case_type)
 {
-	*c = 'A' + (*c - 'a');
-}
-
-void	to_lower(char *c)
-{
-	*c = 'a' + (*c - 'A');
+	if (case_type == 0)
+		*c = 'A' + (*c - 'a');
+	else
+		*c = 'a' + (*c - 'A');
 }
 
 int	is_lowercase(char c)
@@ -57,15 +55,15 @@ char	*ft_strcapitalize(char *str)
 		if (i == 0)
 		{
 			if (is_lowercase(str[i]))
-				to_upper(&str[i]);
+				change_case(&str[i], 0);
 			i++;
 		}
 		else
 		{
 			if (!is_alphanumeric(str[i - 1]) && is_lowercase(str[i]))
-				to_upper(&str[i]);
+				change_case(&str[i], 0);
 			else if (is_alphanumeric(str[i - 1]) && is_uppercase(str[i]))
-				to_lower(&str[i]);
+				change_case(&str[i], 1);
 			i++;
 		}
 	}

@@ -1,87 +1,96 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_memory.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/01 10:52:40 by framiran          #+#    #+#             */
+/*   Updated: 2025/02/01 13:38:33 by framiran         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
-void fill_buffer(char *buffer,char first , char second, char* hex_digits)
-{	
+
+void	fill_buffer(char *buffer, char first, char second, char *hex_digits)
+{
 	buffer[1] = hex_digits[first % 16];
 	buffer[0] = hex_digits[(first / 16) % 16];
 	buffer[3] = hex_digits[second % 16];
-        buffer[2] = hex_digits[(second / 16) % 16];
+	buffer[2] = hex_digits[(second / 16) % 16];
 }
 
-void write_1st_adress(char *addr,char *hex_digits)
+void	write_1st_adress(char *addr, char *hex_digits)
 {
-        char buffer[16];
-	int  i = 16;
-        while(i > 0)
-        {
-                buffer[i] = hex_digits[(long)addr % 16];
-                addr = (char *)((unsigned long)addr / 16);
-                i--;
-        }
-	buffer[i] = hex_digits[(long)addr % 16];
-        addr = (char *)((unsigned long)addr / 16);
-        write(1,&buffer,16);
-        write(1,": " ,2);
-}
+	char			buffer[16];
+	int				i;
+	unsigned long	address_value;
 
-void	write_pair_of_chars_in_hexa(char first,char second,char *hex_digits)
-{
-	 char buffer_for_2chars_in_hexa[4];
-         fill_buffer(buffer_for_2chars_in_hexa,first,second,hex_digits);
-         write(1,&buffer_for_2chars_in_hexa,4);
-         write(1," ",1);
-      
-}
-void *ft_print_memory(void *addr, unsigned int size)
-{
-	int numb_pairs_of_chars_written = 0;
-	void *original_addr = addr;
-        char hex_digits[] = "0123456789abcdef"; 
-	if(size == 0)
-                return NULL;
-
-	write_1st_adress(addr,hex_digits);
-	while(*(char *)addr != 0 && *(char *)(addr + 1) != 0)
+	address_value = (unsigned long)addr;
+	i = 15;
+	while (address_value >= 16)
 	{
-		write_pair_of_chars_in_hexa(*(char *)addr, *(char *)(addr + 1),hex_digits);
-		addr += 2;  
-                numb_pairs_of_chars_written++;
+		buffer[i] = hex_digits[address_value % 16];
+		address_value = address_value / 16;
+		i--;
 	}
-	while(numb_pairs_of_chars_written <= 8)
+	buffer[i] = hex_digits[address_value % 16];
+	i--;
+	while (i >= 0)
 	{
-		write(1,"    ",4);
-		write(1," ",1);
+		buffer[i] = '0';
+		i--;
+	}
+	write(1, &buffer, 16);
+	write(1, ": ", 2);
+}
+
+void	write_pair_of_chars_in_hexa(char first, char second, char *hex_digits)
+{
+	char	buffer_for_2chars_in_hexa[4];
+
+	fill_buffer(buffer_for_2chars_in_hexa, first, second, hex_digits);
+	write(1, &buffer_for_2chars_in_hexa, 4);
+	write(1, " ", 1);
+}
+
+void	write_content(char *casted)
+{
+	while (*casted != 0)
+	{
+		if (*casted < 32 || *casted == 127)
+			write(1, ".", 1);
+		else
+			write(1, casted, 1);
+		casted++;
+	}
+}
+
+void	*ft_print_memory(void *addr, unsigned int size)
+{
+	int		numb_pairs_of_chars_written;
+	char	*casted;
+	char	*hex_digits;
+
+	hex_digits = "0123456789abcdef";
+	numb_pairs_of_chars_written = 0;
+	casted = (char *) addr;
+	if (size == 0)
+		return (NULL);
+	write_1st_adress(casted, hex_digits);
+	while (*casted != 0 && *(casted + 1) != 0)
+	{
+		write_pair_of_chars_in_hexa(*casted, *(casted + 1), hex_digits);
+		casted += 2;
 		numb_pairs_of_chars_written++;
 	}
-	while(*(char *)original_addr != 0)
+	while (numb_pairs_of_chars_written < 8)
 	{
-		if (*(char *)original_addr < 32 || *(char *)original_addr == 127)
-			write(1,".",1);
-		else
-			write(1,original_addr,1);
-		original_addr++;
+		write(1, "    ", 4);
+		write(1, " ", 1);
+		numb_pairs_of_chars_written++;
 	}
-	 return NULL;
-
+	casted = (char *) addr;
+	write_content(casted);
+	return (NULL);
 }
-
-int main()
-{
-    // Teste com strings diferentes, incluindo caracteres não imprimíveis
-    char str1[17] = "Bonjour les amin";  // 16 caracteres
-    char str3[17] = "\x09\x63\x65\x20\x71\x75\x20\x6f"; // Inicia com caracteres não imprimíveis
-    char str4[17] = "\x0a\x09print_memory\x0a\x09"; // Teste com nova linha e tabulação
-    char str5[17] = "\x0a\x20lol\x0alol\x0a\x20"; // Caractere nulo no final
-
-    // Testando a função ft_print_memory com as diferentes strings
-    ft_print_memory(str1, 16);
-    write(1, "\n", 1);
-    ft_print_memory(str3, 16);
-    write(1, "\n", 1);
-    ft_print_memory(str4, 16);
-    write(1, "\n", 1);
-    ft_print_memory(str5, 16);
-    write(1, "\n", 1);
-
-    return 0;
-}
-

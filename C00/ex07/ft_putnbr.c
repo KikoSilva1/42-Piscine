@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framiran <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: framiran <framiran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/02 17:07:56 by framiran          #+#    #+#             */
-/*   Updated: 2025/02/02 17:08:30 by framiran         ###   ########.fr       */
+/*   Created: 2025/01/20 18:08:39 by framiran          #+#    #+#             */
+/*   Updated: 2025/01/28 10:14:10 by framiran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putstr(char *str)
+void	ft_putnbr(int nb)
 {
-	while (*str != '\0')
+	char	digit;
+
+	if (nb == -2147483648)
 	{
-		write(1, str, 1);
-		str++;
+		write(1, "-2147483648", 11);
+		return ;
 	}
+	if (nb < 0)
+	{
+		write(1, "-", 1);
+		nb = -nb;
+	}
+	if (nb >= 10)
+		ft_putnbr(nb / 10);
+	digit = '0' + (nb % 10);
+	write(1, &digit, 1);
 }
